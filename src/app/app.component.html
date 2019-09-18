@@ -16,7 +16,8 @@
     </div>
     <div class="col-6 col-md-3">
       <button class="btn btn-dark" (click)="generate()" >Generar</button>    
-      <button *ngIf="users.length>0" class="btn btn-dark" (click)="clean()">Limpiar</button>
+      <button *ngIf="users.length>0" class="btn btn-dark ml-1" (click)="clean()">Limpiar</button>
+      <button *ngIf="players.length>0" class="btn btn-dark mt-1" (click)="cleanPlayers()">Borrar Caracteres</button>
     </div>
   </div>
   <hr>
@@ -26,7 +27,10 @@
         <li class="player bg-dark" *ngFor="let item, of users; let idx = index"> 
           {{idx+1}}# Jugador 
           <div [className]="colors[idx]" class=" text-dark">
-           {{item}}
+           {{item}} 
+           <span class="float-right cursor-pointer" (click)="openBanModal(content, idx)">
+            <i class="fa fa-ban"></i>
+           </span>
           </div>
         </li>  
       </ul>
@@ -43,3 +47,21 @@
     </div>
   </div>
 </div>
+<!-- modal-->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Banne Player</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+   Haga click sobre el personaje que desea bannear.
+   <div>
+     <span class="badge badge-warning mr-2 cursor-pointer" *ngFor="let item of list; let idx = index" (click)="setBanPlayer(idx)">{{item}}</span>
+   </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+  </div>
+</ng-template>
